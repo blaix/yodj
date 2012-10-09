@@ -11,10 +11,10 @@ console.log("Running...");
 
 bot.on("speak", function(data) {
   console.log("Someone spoke.");
-  if(data.text.match(/^@?bucky/)) {
+  if(data.text.match(/^@?bucky/i)) {
     console.log("@" + data.name + " is talking to me.");
 
-    if(data.text.match(/add (this|my) song/)) {
+    if(data.text.match(/add (this|my) song/i)) {
       bot.speak("I will. I love this song.");
       bot.bop();
       bot.roomInfo(false, function(data) {
@@ -24,19 +24,19 @@ bot.on("speak", function(data) {
       });
     }
 
-    if(data.text.match(/get (you're ass )?up t?here/)) {
+    if(data.text.match(/get (you're ass )?up t?here/i)) {
       bot.speak("3 2 1 let's jam");
       bot.addDj();
       console.log("Started DJ'ing");
     }
 
-    if(data.text.match(/(get|step) down/)) {
+    if(data.text.match(/(get|step) down/i)) {
       bot.speak("As you wish.");
       bot.removeDj(config.user_id);
       console.log("Stopped DJ'ing");
     }
 
-    if(data.text.match(/awesome (this|my) song/)) {
+    if(data.text.match(/awesome (this|my) song/i)) {
       bot.speak("I was just about to!");
       bot.bop();
       console.log("Awesome song is awesome.");
