@@ -1,4 +1,8 @@
-var config = require("./config");
+config = {
+  "auth": process.env.TT_AUTH,
+  "user_id": process.env.TT_USERID,
+  "room_id": process.env.TT_ROOMID
+}
 
 var Bot = require("ttapi");
 var bot = new Bot(config.auth, config.user_id, config.room_id);
