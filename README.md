@@ -1,6 +1,6 @@
 # Yo, DJ! Turn that music up.
 
-A turntable bot.
+A turntable bot. Doesn't really do anything yet except yell at you.
 
 ## Dev setup
 
