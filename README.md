@@ -35,3 +35,4 @@ Run it using the credentials you gathered above:
     heroku config:add TT_USERID=[user id]
     heroku config:add TT_ROOMID=[room id]
     git push heroku master
+    heroku ps:scale server=1 # you should only have to do this once
