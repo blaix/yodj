@@ -18,18 +18,28 @@ bot.on("speak", function(data) {
       bot.speak("I will. I love this song.");
       bot.bop();
       bot.roomInfo(false, function(data) {
-        bot.playlistAdd(data.room.metadata.current_song._id);
+        var song = data.room.metadata.current_song;
+        bot.playlistAdd(song._id);
+        console.log("Added " + song.metadata.song + "to my queue");
       });
     }
 
     if(data.text.match(/get (you're ass )?up t?here/)) {
       bot.speak("3 2 1 let's jam");
       bot.addDj();
+      console.log("Started DJ'ing");
     }
 
     if(data.text.match(/(get|step) down/)) {
       bot.speak("As you wish.");
       bot.removeDj(config.user_id);
+      console.log("Stopped DJ'ing");
+    }
+
+    if(data.text.match(/awesome (this|my) song/)) {
+      bot.speak("I was just about to!");
+      bot.bop();
+      console.log("Awesome song is awesome.");
     }
   }
 });
