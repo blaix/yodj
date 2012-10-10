@@ -32,7 +32,7 @@ bot.on("speak", function(data) {
 
     if(data.text.match(/(get|step) down/i)) {
       bot.speak("As you wish.");
-      bot.removeDj(config.user_id);
+      bot.remDj(config.user_id);
       console.log("Stopped DJ'ing");
     }
 
