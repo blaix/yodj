@@ -61,5 +61,12 @@ bot.on("speak", function(data) {
       });
     }
   }
+
+  // bucky appears in line but not at the beginning
+  else if(data.text.match(/bucky/)) {
+    reply(function() {
+      bot.speak("You talking to me...?");
+    });
+  }
 });
 
