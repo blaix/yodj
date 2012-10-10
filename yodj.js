@@ -24,22 +24,26 @@ bot.on("speak", function(data) {
       });
     }
 
-    if(data.text.match(/get (you're ass )?up t?here/i)) {
+    else if(data.text.match(/get (you're ass )?up t?here/i)) {
       bot.speak("3 2 1 let's jam");
       bot.addDj();
       console.log("Started DJ'ing");
     }
 
-    if(data.text.match(/(get|step) down/i)) {
+    else if(data.text.match(/(get|step) down/i)) {
       bot.speak("As you wish.");
       bot.remDj(config.user_id);
       console.log("Stopped DJ'ing");
     }
 
-    if(data.text.match(/awesome (this|my) song/i)) {
+    else if(data.text.match(/awesome (this|my) song/i)) {
       bot.speak("I was just about to!");
       bot.bop();
       console.log("Awesome song is awesome.");
+    }
+
+    else {
+      bot.speak("Mhmm... Mhmm... I know some of those words.");
     }
   }
 });
