@@ -23,11 +23,13 @@ bot.on("speak", function(data) {
       reply(function() {
         bot.speak("I will. I love this song.");
         bot.bop();
-        bot.roomInfo(false, function(data) {
+        bot.playlistAll(function(playlist) {
           var song = data.room.metadata.current_song;
-          bot.playlistAdd(song._id);
+          bot.playlistAdd(song._id, playlist.list.length);
           console.log("Added " + song.metadata.song + "to my queue");
         });
+        // show the heart:
+        bot.snag();
       });
     }
 
