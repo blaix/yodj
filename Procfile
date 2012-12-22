@@ -1,1 +1,1 @@
-server: node yodj.js
+server: ruby yodj.rb
