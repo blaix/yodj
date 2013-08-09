@@ -27,9 +27,17 @@ var addSongToPlaylist = function(roomData){
   });
 };
 
+var addSongReplies = [
+  "I will. I love this song.",
+  "Will do.",
+  "Hold on. Let me write that down.",
+  "Can you remind me again later?",
+  "I'll play it later, when I feel like it. GOSH!",
+  "You don't know me! I'll play whatever I want to play! But I guess this song is okay."
+];
 var addSong = function(data) {
   bot.roomInfo(addSongToPlaylist);
-  bot.speak("I will. I love this song.");
+  bot.speak();
   bot.bop();
   // show the heart:
   bot.snag();
@@ -122,6 +130,16 @@ var stopSpinningTriggers = [
   /spare us/i
 ];
 
+var addSongTriggers = [
+  /add (this|my) song/i,
+  /play this later/i,
+  /do you have this/i,
+  /are you hearing this/i,
+  /don't you love this/i,
+  /remember this/i,
+  /for later/i
+];
+
 var anyTriggerMatches = function(triggers, text){
   console.log("Checking triggers", triggers);
   return triggers.any(function(trigger){
@@ -133,7 +151,7 @@ var anyTriggerMatches = function(triggers, text){
 var onSpokenTo = function(data){
   console.log("@" + data.name + " is talking to me.");
 
-  if(data.text.match(/add (this|my) song/i)) {
+  if(anyTriggerMatches(addSongTriggers, data.text)) {
     delay(addSong, data);
   }
 
