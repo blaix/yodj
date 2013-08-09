@@ -188,15 +188,42 @@ var onMentioned = function() {
   bot.speak(mentionedReplies.sample());
 };
 
+var greetings = [
+  "Hi.",
+  "Hey.",
+  "Hello.",
+  "What's up?",
+  "What are the haps?",
+  "How's it hangin'?",
+  "Howdy!",
+  "Man, this place is slammin'!",
+  "Please, don't talk to me. I'm thinking.",
+  "Cut the chatter. I'm just here for the tunes.",
+  "Hi. I'm " + config.name + " what's your name?"
+];
+
+var onGreeted = function(){
+  bot.speak(greetings.sample());
+};
+
 
 var myNameAtBeginning = new RegExp("^@?" + config.name, "i");
 var myNameAnywhere = new RegExp(config.name, "i");
+var greetingMe = new RegExp("(hi|hello|hey|what's up|sup|welcome back) " + config.name, "i");
 
 var onSpeak = function(data) {
   console.log("Someone spoke.");
+  if (data.userid === config.userId){
+    //Let's not reply to ourself
+    return;
+  }
 
   if(data.text.match(myNameAtBeginning)) {
     onSpokenTo(data);
+  }
+
+  else if (data.text.match(greetingMe)){
+    delay(onGreeted);
   }
 
   else if(data.text.match(myNameAnywhere)) {
