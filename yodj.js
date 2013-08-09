@@ -22,8 +22,8 @@ var onNewSong = function(data){
 var addSongToPlaylist = function(roomData){
   var currentSong = roomData.room.metadata.current_song;
   bot.playlistAll(function(playlist) {
+    console.log("Adding " + currentSong.metadata.song + " (" + currentSong._id + ") to my queue");
     bot.playlistAdd(currentSong._id, playlist.list.length);
-    console.log("Added " + currentSong.metadata.song + " to my queue");
   });
 };
 
@@ -31,7 +31,7 @@ var addSongReplies = [
   "I will. I love this song.",
   "Will do.",
   "Hold on. Let me write that down.",
-  "Can you remind me again later?",
+  "I'll try to remember it. Can you remind me again later?",
   "I'll play it later, when I feel like it. GOSH!",
   "You don't know me! I'll play whatever I want to play! But I guess this song is okay."
 ];
