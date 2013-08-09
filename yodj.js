@@ -30,7 +30,7 @@ var startSpinningReplies = [
   "3 2 1 let's jam",
   "Just call me Mr. Spinderella.",
   "Funky fresh beats, coming right up.",
-  "Okay, but I REALLY suck at this.",
+  "Okay, but I'm not very good at this.",
   "Oooh. This chair is still warm.",
   "Well, if you insist.",
   "Somebody STOP ME!"
@@ -41,8 +41,17 @@ var startSpinning = function(){
   console.log("Started DJ'ing");
 };
 
+var stopSpinningReplies = [
+  "As you wish.",
+  "Fine. This room stinks anyway.",
+  "Finally. My fingers are getting sore.",
+  "Oh yeah!? You think you can do better?",
+  "(yawn) I'm gonna go take a nap.",
+  "Ok, sure. So, do we get paid by the hour, or...",
+  "Yes, I have rocked the house sufficiently for now."
+];
 var stopSpinning = function(){
-  bot.speak("As you wish.");
+  bot.speak(stopSpinningReplies.sample());
   bot.remDj(config.user_id);
   console.log("Stopped DJ'ing");
 };
@@ -85,6 +94,30 @@ var bopTriggers = [
   /shake (your (ass|booty|rump)|it)/i,
 ];
 
+var startSpinningTriggers = [
+  /get (you're ass )?up t?here/i,
+  /have a seat/i,
+  /step right up/i,
+  /come on up here/i,
+  /show (us|them) (what you|how)/i
+];
+
+var stopSpinningTriggers = [
+  /(get|step) (down|off)/i,
+  /shut.*up/i,
+  /put a cork in it/i,
+  /give it a rest/i,
+  /spare us/i
+];
+
+var anyTriggerMatches = function(triggers, text){
+  console.log("Checking triggers", triggers);
+  return triggers.any(function(trigger){
+    console.log("Matching:", text, trigger);
+    return text.match(trigger);
+  });
+};
+
 var onSpokenTo = function(data){
   console.log("@" + data.name + " is talking to me.");
 
@@ -92,15 +125,15 @@ var onSpokenTo = function(data){
     delay(addSong, data);
   }
 
-  else if(data.text.match(/get (you're ass )?up t?here/i)) {
+  else if(anyTriggerMatches(startSpinningTriggers, data.text)) {
     delay(startSpinning, data);
   }
 
-  else if(data.text.match(/(get|step) down/i)) {
+  else if(anyTriggerMatches(stopSpinningTriggers, data.text)) {
     delay(stopSpinning, data);
   }
 
-  else if(bopTriggers.any(function(){return data.text.match(this);})) {
+  else if(anyTriggerMatches(bopTriggers, data.text)) {
     delay(bop, data);
   }
 
