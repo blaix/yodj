@@ -2,8 +2,6 @@ require("sugar");
 
 var config = require("./config.js");
 
-var myName = new RegExp("^@?" + config.name, "i");
-
 var Bot = require("ttapi");
 var bot = new Bot(config.auth, config.user_id, config.room_id);
 
@@ -100,19 +98,33 @@ var onSpokenTo = function(data){
   }
 };
 
+
+var mentionedReplies = [
+  "You talking to me...?",
+  "My ears are burning.",
+  "What? Who said that?",
+  "I will happily reply, if you would find the courtesy to address me directly.",
+  "(Sigh)",
+  "I could use a hug.",
+  "What time is it?"
+];
+
 var onMentioned = function() {
-  bot.speak("You talking to me...?");
+  bot.speak(mentionedReplies.sample());
 };
+
+
+var myNameAtBeginning = new RegExp("^@?" + config.name, "i");
+var myNameAnywhere = new RegExp(config.name, "i");
 
 var onSpeak = function(data) {
   console.log("Someone spoke.");
 
-  if(data.text.match(myName)) {
+  if(data.text.match(myNameAtBeginning)) {
     onSpokenTo(data);
   }
 
-  // bucky appears in line but not at the beginning
-  else if(data.text.match(/bucky/)) {
+  else if(data.text.match(myNameAnywhere)) {
     delay(onMentioned);
   }
 };
