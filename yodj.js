@@ -13,18 +13,27 @@ var delay = function(callback, args) {
   }, config.reply_delay);
 };
 
-var addSong = function() {
+var currentSong;
+
+var onNewSong = function(data){
+  currentSong = data.room.metadata.current_song;
+};
+
+var addSongToPlaylist = function(roomData){
+  var currentSong = roomData.room.metadata.current_song;
+  bot.playlistAll(function(playlist) {
+    bot.playlistAdd(currentSong._id, playlist.list.length);
+    console.log("Added " + currentSong.metadata.song + " to my queue");
+  });
+};
+
+var addSong = function(data) {
+  bot.roomInfo(addSongToPlaylist);
   bot.speak("I will. I love this song.");
   bot.bop();
-  bot.playlistAll(function(playlist) {
-    var song = data.room.metadata.current_song;
-    bot.playlistAdd(song._id, playlist.list.length);
-    console.log("Added " + song.metadata.song + "to my queue");
-  });
   // show the heart:
   bot.snag();
 };
-
 
 var startSpinningReplies = [
   "3 2 1 let's jam",
@@ -33,7 +42,8 @@ var startSpinningReplies = [
   "Okay, but I'm not very good at this.",
   "Oooh. This chair is still warm.",
   "Well, if you insist.",
-  "Somebody STOP ME!"
+  "Somebody STOP ME!",
+  "iz abot 2 br1ng teh 2nz"
 ];
 var startSpinning = function(){
   bot.speak(startSpinningReplies.sample());
@@ -48,7 +58,8 @@ var stopSpinningReplies = [
   "Oh yeah!? You think you can do better?",
   "(yawn) I'm gonna go take a nap.",
   "Ok, sure. So, do we get paid by the hour, or...",
-  "Yes, I have rocked the house sufficiently for now."
+  "Yes, I have rocked the house sufficiently for now.",
+  "Check you later, peeps."
 ];
 var stopSpinning = function(){
   bot.speak(stopSpinningReplies.sample());
@@ -64,7 +75,8 @@ var bopReplies = [
   "This is my new favorite song.",
   "What? Oh, yeah. This song is okay I guess. If you say so.",
   "Of course. I shall now be gettin' jiggy wit' it.",
-  "Let the booty shaking commence."
+  "Let the booty shaking commence.",
+  "This song is the bomb-diggity."
 ];
 
 var bop = function() {
@@ -150,7 +162,7 @@ var mentionedReplies = [
   "I will happily reply, if you would find the courtesy to address me directly.",
   "(Sigh)",
   "I could use a hug.",
-  "What time is it?"
+  "What time is it? I should probably be getting home."
 ];
 
 var onMentioned = function() {
@@ -174,4 +186,4 @@ var onSpeak = function(data) {
 };
 
 bot.on("speak", onSpeak);
-
+bot.on("newsong", onNewSong);
