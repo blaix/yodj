@@ -1,3 +1,5 @@
+require("sugar");
+
 var config = require("./config.js");
 
 var myName = new RegExp("^@?" + config.name, "i");
@@ -43,8 +45,18 @@ var bop = function() {
   console.log("Awesome song is awesome.");
 };
 
+var confusedReplies = [
+  "Mhmm... Mhmm... I know some of those words.",
+  "Ha ha ha ha! Wait. What?",
+  "Uhm. I guess so...",
+  "You're not really making any sense.",
+  "I could really use a nap.",
+  "WHAT? WHAAAT!?!?!\nI'm afraid it's too darn loud.",
+  "I have no idea.",
+  "Monkeys are funny. Tee hee."
+];
 var totallyConfused = function() {
-  bot.speak("Mhmm... Mhmm... I know some of those words.");
+  bot.speak(confusedReplies.sample());
 }
 
 var onSpokenTo = function(data){
