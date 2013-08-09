@@ -13,18 +13,26 @@ var delay = function(callback, args) {
   }, config.reply_delay);
 };
 
-var currentSong;
+var bopping = false;
 
-var onNewSong = function(data){
-  currentSong = data.room.metadata.current_song;
+var clearBopping = function(){
+  bopping = false;
 };
+
+var startBopping = function(){
+  bopping = true;
+  bot.bop();
+}
 
 var addSongToPlaylist = function(roomData){
   var currentSong = roomData.room.metadata.current_song;
-  bot.playlistAll(function(playlist) {
+
+  var onPlaylistAll = function(playlist){
     console.log("Adding " + currentSong.metadata.song + " (" + currentSong._id + ") to my queue");
     bot.playlistAdd(currentSong._id, playlist.list.length);
-  });
+  };
+
+  bot.playlistAll(onPlaylistAll);
 };
 
 var addSongReplies = [
@@ -38,7 +46,7 @@ var addSongReplies = [
 var addSong = function(data) {
   bot.roomInfo(addSongToPlaylist);
   bot.speak(addSongReplies.sample());
-  bot.bop();
+  startBopping();
   // show the heart:
   bot.snag();
 };
@@ -89,7 +97,7 @@ var bopReplies = [
 
 var bop = function() {
   bot.speak(bopReplies.sample());
-  bot.bop();
+  startBopping();
   console.log("Awesome song is awesome.");
 };
 
@@ -109,7 +117,7 @@ var totallyConfused = function() {
 };
 
 var bopTriggers = [
-  /awesome (this|my) song/i,
+  /(awesome|like|upvote) (this|my) song/i,
   /start (dancing|shaking|bopping (your (ass|booty|rump)|it))?/i,
   /shake (your (ass|booty|rump)|it)/i,
   /bop it/i
@@ -207,9 +215,37 @@ var onGreeted = function(){
 };
 
 
+var consensusReplies = [
+  "This DJ is tearing the place up!",
+  "This song is too hot to handle!",
+  "Everyone else is dancing. I guess I should be, too.",
+  "This song is flippin' SWEET!",
+  "It's official. This song ROCKS!",
+  "Woot! This is so much fun!",
+  "I'm like, totally having the TIME OF MY LIFE right now."
+];
+var currentUpvotes = 0;
+var checkCounts = function(roomInfo){
+  var listeners = roomInfo.room.metadata.listeners;
+  var upvotes = roomInfo.room.metadata.upvotes + 1; //add one for the playing DJ
+  var ratio = upvotes / listeners;
+  if (ratio >= .5) {
+    addSongToPlaylist(roomInfo);
+    bot.snag();
+    if (!bopping){
+      startBopping();
+      bot.speak(consensusReplies.sample());
+    }
+  }
+};
+var onUpdateVotes = function(){
+  bot.roomInfo(checkCounts)
+};
+
+
 var myNameAtBeginning = new RegExp("^@?" + config.name, "i");
 var myNameAnywhere = new RegExp(config.name, "i");
-var greetingMe = new RegExp("(hi|hello|hey|what's up|sup|welcome back) " + config.name, "i");
+var greetingMe = new RegExp("(hi|hello|hey|howdy|what's up|sup|welcome back) " + config.name, "i");
 
 var onSpeak = function(data) {
   console.log("Someone spoke.");
@@ -232,4 +268,6 @@ var onSpeak = function(data) {
 };
 
 bot.on("speak", onSpeak);
-bot.on("newsong", onNewSong);
+bot.on("update_votes", onUpdateVotes);
+bot.on("newsong", clearBopping);
+bot.on("endsong", clearBopping);
