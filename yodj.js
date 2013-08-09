@@ -110,8 +110,9 @@ var totallyConfused = function() {
 
 var bopTriggers = [
   /awesome (this|my) song/i,
-  /start (dancing|shaking (your (ass|booty|rump)|it))/i,
+  /start (dancing|shaking|bopping (your (ass|booty|rump)|it))/i,
   /shake (your (ass|booty|rump)|it)/i,
+  /bop it/i
 ];
 
 var startSpinningTriggers = [
