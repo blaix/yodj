@@ -39,15 +39,26 @@ var stopSpinning = function(){
   console.log("Stopped DJ'ing");
 };
 
+var bopReplies = [
+  "I was just about to!",
+  "Oh yeah, I'm shakin' it, now!",
+  "Look at me go!",
+  "This song rules. It RULES!",
+  "This is my new favorite song.",
+  "What? Oh, yeah. This song is okay I guess. If you say so.",
+  "Of course. I shall now be gettin' jiggy wit' it.",
+  "Let the booty shaking commence."
+];
+
 var bop = function() {
-  bot.speak("I was just about to!");
+  bot.speak(bopReplies.sample());
   bot.bop();
   console.log("Awesome song is awesome.");
 };
 
 var confusedReplies = [
   "Mhmm... Mhmm... I know some of those words.",
-  "Ha ha ha ha! Wait. What?",
+  "Ha ha ha ha!\nWait- What did you say?",
   "Uhm. I guess so...",
   "You're not really making any sense.",
   "I could really use a nap.",
@@ -58,6 +69,12 @@ var confusedReplies = [
 var totallyConfused = function() {
   bot.speak(confusedReplies.sample());
 }
+
+var bopTriggers = [
+  /awesome (this|my) song/i,
+  /start (dancing|shaking (your (ass|booty|rump)|it))/i,
+  /shake (your (ass|booty|rump)|it)/i,
+];
 
 var onSpokenTo = function(data){
   console.log("@" + data.name + " is talking to me.");
@@ -74,7 +91,7 @@ var onSpokenTo = function(data){
     delay(stopSpinning, data);
   }
 
-  else if(data.text.match(/awesome (this|my) song/i)) {
+  else if(bopTriggers.any(function(){return data.text.match(this);})) {
     delay(bop, data);
   }
 
