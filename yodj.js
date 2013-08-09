@@ -25,11 +25,21 @@ var addSong = function() {
   bot.snag();
 };
 
+
+var startSpinningReplies = [
+  "3 2 1 let's jam",
+  "Just call me Mr. Spinderella.",
+  "Funky fresh beats, coming right up.",
+  "Okay, but I REALLY suck at this.",
+  "Oooh. This chair is still warm.",
+  "Well, if you insist.",
+  "Somebody STOP ME!"
+];
 var startSpinning = function(){
-  bot.speak("3 2 1 let's jam");
+  bot.speak(startSpinningReplies.sample());
   bot.addDj();
   console.log("Started DJ'ing");
-}
+};
 
 var stopSpinning = function(){
   bot.speak("As you wish.");
@@ -64,9 +74,10 @@ var confusedReplies = [
   "I have no idea.",
   "Monkeys are funny. Tee hee."
 ];
+
 var totallyConfused = function() {
   bot.speak(confusedReplies.sample());
-}
+};
 
 var bopTriggers = [
   /awesome (this|my) song/i,
