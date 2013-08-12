@@ -229,7 +229,7 @@ var checkCounts = function(roomInfo){
   var listeners = roomInfo.room.metadata.listeners;
   var upvotes = roomInfo.room.metadata.upvotes + 1; //add one for the playing DJ
   var ratio = upvotes / listeners;
-  if (ratio >= .5) {
+  if (ratio > .5) {
     addSongToPlaylist(roomInfo);
     bot.snag();
     if (!bopping){
