@@ -22,7 +22,8 @@ using [this bookmarklet](http://alaingilbert.github.com/Turntable-API/bookmarkle
 
 Run it using the credentials you gathered above:
 
-    TT_AUTH=[auth] TT_USERID=[user id] TT_ROOMID=[room id] foreman start
+    TT_AUTH=[auth] TT_USERID=[user id] TT_ROOMID=[room id] \
+    TT_NAME=[name of bot] foreman start
 
 ## Deploying to heroku
 
@@ -34,6 +35,7 @@ Run it using the credentials you gathered above:
     heroku config:add TT_AUTH=[auth]
     heroku config:add TT_USERID=[user id]
     heroku config:add TT_ROOMID=[room id]
+    heroku config:add TT_NAME=[name of bot]
     git push heroku master
     heroku ps:scale server=1
 
